@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+    <property name="LOG_HOME" value="/home/zhangminjie/workspace/other/demo/logs/${APP_NAME}"/>
+    <property name="LOG_FILE" value="${LOG_HOME}/logback.log"/>
+    <property name="PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5level][%thread][%logger#%line]: %msg%n"/>
+    
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">   
+		<!-- encoder 默认配置为PatternLayoutEncoder -->   
+		<encoder>   
+			<pattern>${PATTERN}</pattern>   
+		</encoder>   
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE}</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/logs/%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>7</maxHistory>
+			<totalSizeCap>50GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${PATTERN}</pattern>
+		</encoder>
+	</appender>
+	<root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
